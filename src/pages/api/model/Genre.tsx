@@ -1,16 +1,11 @@
 import { DataTypes } from 'sequelize';
+import { sequelizeDB } from '../middleware/db';
 
-let Genre :  any;
 
-(async() => {
-    const { sequelizeDB } = await import('../middleware/db');
+export default sequelizeDB.define('genre', {
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+});
 
-    Genre = sequelizeDB.define('genre', {
-      name: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-    });
-})();
-
-export { Genre };

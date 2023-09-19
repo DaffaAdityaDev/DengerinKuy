@@ -1,13 +1,8 @@
 import { DataTypes } from 'sequelize';
+import { sequelizeDB } from '../middleware/db';
+import Album from './Album';
 
-let Music : any; // Declare the variable outside the async function
-
-(async () => {
-    const { sequelizeDB } = await import('../middleware/db');
-    const { Album } = await import('./Album');
-    const { Artist } = await import('./Artist');
-
-  Music = sequelizeDB.define('music', {
+export default sequelizeDB.define('music', {
     name: {
       type: DataTypes.STRING,
       allowNull: false
@@ -24,21 +19,4 @@ let Music : any; // Declare the variable outside the async function
       type: DataTypes.STRING,
       allowNull: false
     },
-    id_album: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
-    id_artists: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    }
-    
-  });
-
-  Music.hasMany(Album, { foreignKey: 'id_music' });
-  Music.hasOne(Artist, { foreignKey: 'id_artists' });
-  
-})();
-
-// Export the music model
-export { Music };
+});
