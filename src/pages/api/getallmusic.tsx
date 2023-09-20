@@ -1,13 +1,19 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { checkConnection } from './middleware/db'
+import { checkConnection, getAllDataMusic } from './Middleware/db'
 
 // deleteAllTable()
 checkConnection()
 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  res.status(200).json({ name: 'GetAllMUSIC ' })
+  let data = await getAllDataMusic()
+  res.status(200).json({
+    Response: {
+      data: data,
+      message: "Success"
+    }
+  })
 }

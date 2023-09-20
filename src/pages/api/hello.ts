@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { checkConnection } from './middleware/db'
+import { checkConnection } from './Middleware/db'
 
 type Data = {
   name: string

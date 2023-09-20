@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';
-import { sequelizeDB } from '../middleware/db';
+import { sequelizeDB } from '../Middleware/db';
 
 
 export default sequelizeDB.define('artists', {
