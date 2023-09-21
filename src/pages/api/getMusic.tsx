@@ -11,11 +11,31 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-    const params = req.query.musicName
-    console.log(params)
-    const filePath = join(process.cwd(), `src/pages/api/Resource/${params}.mp3`)
-    const stream = createReadStream(filePath)
+    // console.log(params)
+    try {
+        const params = req.query.musicName
+        const filePath = join(process.cwd(), `src/pages/api/Resource/${params}.mp3`)
+    
+        const stream = createReadStream(filePath)
 
-    res.setHeader('Content-Type', 'audio/mpeg')
-    stream.pipe(res)
+        stream.on('error', function(err) {
+            console.error(err);
+            res.status(400).json({
+                Response: {
+                    message: "Not Found"
+                }
+            })
+        });
+        
+
+        res.setHeader('Content-Type', 'audio/mpeg')
+        stream.pipe(res)
+    } catch (error) {
+        res.status(404).json({
+            Response: {
+                message: "Not Found"
+            }
+        })
+    }
+    
 }

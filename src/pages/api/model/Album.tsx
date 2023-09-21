@@ -12,6 +12,10 @@ export default sequelizeDB.define('album', {
         type: DataTypes.INTEGER,
         allowNull: false
     },
+    image: {
+        type: DataTypes.STRING,
+        allowNull: true
+    }
     
 });
 

@@ -18,6 +18,11 @@ export default async function uploadFile(req: NextApiRequest, res: NextApiRespon
       return;
     }
 
+    if(!files['file']) {
+        res.status(405).json({ message: 'key Should be file' });
+        return;
+    }
+
     console.log(files['file']);
 
     const oldPath = files['file'][0].filepath;

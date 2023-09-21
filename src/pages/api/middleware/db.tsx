@@ -38,46 +38,7 @@ const checkIfModelExists = async () => {
             albumId: 1,
             artistId: 1,
         },
-        {
-            name: 'Lagu 2',
-            length: 100,
-            count: 100,
-            path: 'path',
-            albumId: 1,
-            artistId: 1,
-        },
-        {
-            name: 'Lagu 3',
-            length: 100,
-            count: 100,
-            path: 'path',
-            albumId: 1,
-            artistId: 1,
-        },
-        {
-            name: 'Lagu 4',
-            length: 100,
-            count: 100,
-            path: 'path',
-            albumId: 1,
-            artistId: 1,
-        },
-        {
-            name: 'Lagu 5',
-            length: 100,
-            count: 100,
-            path: 'path',
-            albumId: 1,
-            artistId: 1,
-        },
-        {
-            name: 'Lagu 6',
-            length: 100,
-            count: 100,
-            path: 'path',
-            albumId: 1,
-            artistId: 1,
-        },
+
     ];
 
     const fakeDataAlbum = [
@@ -85,52 +46,12 @@ const checkIfModelExists = async () => {
             name: 'Album 1',
             length: 100,
             artistId: 1,
-        },
-        {
-            name: 'Album 2',
-            length: 100,
-            artistId: 1,
-        },
-        {
-            name: 'Album 3',
-            length: 100,
-            artistId: 1,
-        },
-        {
-            name: 'Album 4',
-            length: 100,
-            artistId: 1,
-        },
-        {
-            name: 'Album 5',
-            length: 100,
-            artistId: 1,
-        },
-        {
-            name: 'Album 6',
-            length: 100,
-            artistId: 1,
-        },
+        }
     ];
 
     const fakeDataArtist = [
         {
             name: 'Artist 1',
-        },
-        {
-            name: 'Artist 2',
-        },
-        {
-            name: 'Artist 3',
-        },
-        {
-            name: 'Artist 4',
-        },
-        {
-            name: 'Artist 5',
-        },
-        {
-            name: 'Artist 6',
         },
     ];
 
@@ -139,30 +60,10 @@ const checkIfModelExists = async () => {
             name: 'Genre 1',
             artistId: 1,
         },
-        {
-            name: 'Genre 2',
-            artistId: 1,
-        },
-        {
-            name: 'Genre 3',
-            artistId: 1,
-        },
-        {
-            name: 'Genre 4',
-            artistId: 1,
-        },
-        {
-            name: 'Genre 5',
-            artistId: 1,
-        },
-        {
-            name: 'Genre 6',
-            artistId: 1,
-        },
     ];
     
     try {
-        await sequelizeDB.sync({ force: true }).then(async () => {
+        await sequelizeDB.sync({ force: true }).then(async () => { 
             if (Artist) {
                 await Artist.bulkCreate(fakeDataArtist);
             }
@@ -194,12 +95,13 @@ export const getAllDataMusic = async () => {
     try {
         const data = await Music.findAll({
             include: [
-              {
-                model: Artist,
-                as: 'artist',
-              },
-            ],
-          });
+                {
+                    model: Artist,
+                    as: 'artist',
+                    attributes: ['name'],
+                }
+            ]
+        });
           
         return data;
     } catch (error) {

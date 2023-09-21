@@ -10,10 +10,11 @@ export default async function handler(
   res: NextApiResponse
 ) {
   let data = await getAllDataMusic()
+  
   res.status(200).json({
-    Response: {
-      data: data,
-      message: "Success"
-    }
+    
+    data: data,
+    message: "Success"
+  
   })
 }

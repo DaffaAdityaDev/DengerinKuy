@@ -19,4 +19,8 @@ export default sequelizeDB.define('music', {
       type: DataTypes.STRING,
       allowNull: false
     },
+    image: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
 });
