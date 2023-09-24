@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-export const fetchMusic = async ( music ) => {
+export const fetchMusic = async ( music : String ) => {
     let url = "http://localhost:3000/api/getMusic";
 
-    console.log('fetchMusic', url, music);
+    // console.log('fetchMusic', url, music);
     try {
       const res = await axios.get(url, {
         responseType: 'arraybuffer',
@@ -21,8 +21,8 @@ export const fetchMusic = async ( music ) => {
       // audio.play();
       
 
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  } catch (error) {
+    console.error(error);
+  }
+};
   

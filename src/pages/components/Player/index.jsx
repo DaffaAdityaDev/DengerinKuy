@@ -2,6 +2,7 @@ import React, { useState, useContext, useRef, useEffect } from 'react';
 import { AudioPlayerContext } from '../../context/AudioPlayerProvider';
 import { fetchMusic } from '@/pages/utils';
 
+
 function Player() {
     const [volume, setVolume] = useState(0.1)
     const [currentTime, setCurrentTime] = useState(0);
@@ -9,22 +10,19 @@ function Player() {
     const [endDuration, setEndDuration] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
 
-
-    const { song, setSong, currentSong, setCurrentSong, arrayBlob, setArrayBlob } = useContext(AudioPlayerContext);
-
-    
+    const { song, setSong, currentSong, setCurrentSong, musicBlob, setMusicBlob } = useContext(AudioPlayerContext); 
     
     const audioRef = useRef();
 
     useEffect(() => {
-        if (song.length !== 0 && arrayBlob === undefined) {
+        if (song.length !== 0 && musicBlob === undefined) {
             fetchMusic(song[currentSong].title).then((res) => {
-                setArrayBlob(res)
+                setMusicBlob(res)
             })
         }
         
-        if (arrayBlob instanceof Blob) {
-            const blobUrl = URL.createObjectURL(arrayBlob);
+        if (musicBlob instanceof Blob) {
+            const blobUrl = URL.createObjectURL(musicBlob);
             audioRef.current.querySelector('source').src = blobUrl
             audioRef.current.load()
             audioRef.current.play()
@@ -54,7 +52,7 @@ function Player() {
                 handleNext()
             })
         }
-    }, [song, currentSong, arrayBlob])
+    }, [song, currentSong, musicBlob])
 
     useEffect(() => {
         audioRef.current.volume = volume
@@ -84,7 +82,7 @@ function Player() {
         let prevSongSrc = song[prevSong].title
         
         fetchMusic(prevSongSrc).then((res) => {
-            setArrayBlob(res)
+            setMusicBlob(res)
             
         }).then(() => {
             audioRef.current.pause()
@@ -109,7 +107,7 @@ function Player() {
         let nextSongSrc = song[nextSong].title
         
         fetchMusic(nextSongSrc).then((res) => {
-            setArrayBlob(res)
+            setMusicBlob(res)
         }).then(() => {
             audioRef.current.pause()
             audioRef.current.querySelector('source').src = nextSongSrc
@@ -136,7 +134,7 @@ function Player() {
   return (
     <div className='flex justify-between items-center h-full'>
         {/* <button onClick={goPrev}>prev</button> */}
-        <div>
+        <div >
             <img src={song[currentSong].cover} alt="" />
             <h3>{song[currentSong].title}</h3>
             <p>{song[currentSong].artist}</p>
@@ -194,7 +192,7 @@ function Player() {
 
         <audio ref={audioRef}>
             
-            <source src={arrayBlob} type="audio/mpeg" />
+            <source src={musicBlob} type="audio/mpeg" />
             Your browser does not support the audio element.
         </audio>
         {/* <button onClick={goNext}>next</button> */}
