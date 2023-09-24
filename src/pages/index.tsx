@@ -7,11 +7,23 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import RadioMain from './components/Radio/Main'
 import Player from './components/Player'
 import { AudioPlayerContext } from './context/AudioPlayerProvider';
+import { fetchMusic } from './utils';
+
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
-  const { song, setSong, currentSong, setCurrentSong } = useContext(AudioPlayerContext);
+  const { song, setSong, currentSong, setCurrentSong, setArrayBlob } = useContext(AudioPlayerContext);
+  // const [music, setMusic] = useState(null);
+  
+//   useEffect(() => {
+//     fetchMusic("SPECIALZ").then((res) => {
+//       setArrayBlob(res)
+//     })
+   
+// }, [])
+
+
 
   
   return (
@@ -44,11 +56,11 @@ export default function Home() {
         <button onClick={() => setSong([{
           title: "SPECIALZ",
           artist: "JACKBOYS",
-          src: "/source/SPECIALZ.mp3"
+          
         }, {
-          title: "my",
+          title: "I REALLY WANT TO STAY AT YOUR HOUSE",
           artist: "JACKBOYS",
-          src: "/source/with.mp3"
+          
         }])}>set</button>
       </main>
       <div className='bg-green-300 fixed bottom-0 w-full h-[calc(5%+3em)]'>

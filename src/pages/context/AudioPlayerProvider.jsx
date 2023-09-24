@@ -9,9 +9,10 @@ export const AudioPlayerProvider = ({ children }) => {
     
   }]);
   const [currentSong, setCurrentSong] = useState(0);
+  const [arrayBlob, setArrayBlob] = useState();
 
   return (
-    <AudioPlayerContext.Provider value={{ song, setSong, currentSong, setCurrentSong }}>
+    <AudioPlayerContext.Provider value={{ song, setSong, currentSong, setCurrentSong , arrayBlob, setArrayBlob}}>
       {children}
     </AudioPlayerContext.Provider>
   );

@@ -26,8 +26,9 @@ export default async function uploadFile(req: NextApiRequest, res: NextApiRespon
     console.log(files['file']);
 
     const oldPath = files['file'][0].filepath;
-    const fileName = files['file'][0].newFilename.endsWith('.mp3') ? files['file'][0].newFilename : `${files['file'][0].newFilename}.mp3`;
+    const fileName = files['file'][0].originalFilename.endsWith('.mp3') ? files['file'][0].originalFilename : `${files['file'][0].originalFilename}.mp3`;
     const newPath = path.join(process.cwd(), 'src/pages/api/Resource', fileName);
+    
 
     fs.copyFile(oldPath, newPath, function (err) {
       if (err) {
