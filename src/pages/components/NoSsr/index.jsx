@@ -11,4 +11,4 @@ function NoSsr(props) {
 
 export default dynamic(() => Promise.resolve(NoSsr), {
     ssr: false
-  });
+});

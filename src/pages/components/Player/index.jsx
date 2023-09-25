@@ -15,6 +15,7 @@ function Player() {
     const audioRef = useRef();
 
     useEffect(() => {
+        console.log('blob', musicBlob)
         if (song.length !== 0 && musicBlob === undefined) {
             fetchMusic(song[currentSong].title).then((res) => {
                 setMusicBlob(res)
@@ -66,9 +67,10 @@ function Player() {
     };
     
     function handleFormatTime(time) {
-        const min = Math.floor(time / 60)
-        const sec = Math.floor(time % 60)
-        return `${min}:${sec}`
+        // format 00:00
+        const minutes = Math.floor(time / 60);
+        const seconds = Math.floor(time % 60);
+        return `${minutes < 10 ? `0${minutes}` : minutes}:${seconds < 10 ? `0${seconds}` : seconds}`
     }
 
     function handlePrev() {
@@ -135,9 +137,9 @@ function Player() {
     <div className='flex justify-between items-center h-full'>
         {/* <button onClick={goPrev}>prev</button> */}
         <div >
-            <img src={song[currentSong].cover} alt="" />
-            <h3>{song[currentSong].title}</h3>
-            <p>{song[currentSong].artist}</p>
+            {/* <img src={song[currentSong].cover} alt="" /> */}
+            <h3>{song[currentSong]?.title}</h3>
+            <p>{song[currentSong]?.artist}</p>
         </div>
        
         <div className="flex flex-col justify-center items-center h-full">
@@ -169,7 +171,7 @@ function Player() {
                             className="absolute left-0 w-full h-2 opacity-0 cursor-pointer z-10 "
                             
                         />
-                        <div style={{ width: `${(currentTime/duration)*100}%` }} className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"></div>
+                        <div style={{ width: `${(currentTime/duration)*100}%` }} className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"></div>
                     </div>
                     <p className="text-xs font-semibold inline-block text-gray-600">
                         {handleFormatTime(duration)}

@@ -29,17 +29,17 @@ const checkIfModelExists = async () => {
     Artist.hasMany(Genre, { foreignKey: 'artistId', as: 'albums' });
     Genre.belongsTo(Artist, { foreignKey: 'artistId', as: 'artist' });
 
-    const fakeDataMusic = [
-        {
-            name: 'Lagu 1',
-            length: 100,
-            count: 100,
-            path: 'path',
-            albumId: 1,
-            artistId: 1,
-        },
+    // const fakeDataMusic = [
+    //     {
+    //         name: 'Lagu 1',
+    //         length: 100,
+    //         count: 100,
+    //         path: 'path',
+    //         albumId: 1,
+    //         artistId: 1,
+    //     },
 
-    ];
+    // ];
 
     const fakeDataAlbum = [
         {
@@ -55,28 +55,30 @@ const checkIfModelExists = async () => {
         },
     ];
 
-    const fakeDataGenre = [
-        {
-            name: 'Genre 1',
-            artistId: 1,
-        },
-    ];
+    // const fakeDataGenre = [
+    //     {
+    //         name: 'Genre 1',
+    //         artistId: 1,
+    //     },
+    // ];
     
     try {
-        await sequelizeDB.sync({ force: true }).then(async () => { 
-            if (Artist) {
-                await Artist.bulkCreate(fakeDataArtist);
-            }
-            if (Album) {
-                await Album.bulkCreate(fakeDataAlbum);
-            }
-            if (Music) {
-                await Music.bulkCreate(fakeDataMusic);
-            }
-            if (Genre) {
-                await Genre.bulkCreate(fakeDataGenre);
-            }
+        await sequelizeDB.sync({ alter: false }).then(async () => { 
+            // if (Artist) {
+            //     await Artist.bulkCreate(fakeDataArtist);
+            // }
+            // if (Album) {
+            //     await Album.bulkCreate(fakeDataAlbum);
+            // }
+            // if (Music) {
+            //     await Music.bulkCreate(fakeDataMusic);
+            // }
+            // if (Genre) {
+            //     await Genre.bulkCreate(fakeDataGenre);
+            // }
         });
+
+        // await sequelizeDB.sync({ alter: false });
     
         console.log("All models were synchronized successfully.");
     } catch (error) {
@@ -92,23 +94,69 @@ export const getAllDataMusic = async () => {
     const Artist = (await import('../Model/Artist')).default;
     const Genre = (await import('../Model/Genre')).default;
 
-    try {
-        const data = await Music.findAll({
-            include: [
-                {
-                    model: Artist,
-                    as: 'artist',
-                    attributes: ['name'],
-                }
-            ]
-        });
-          
-        return data;
-    } catch (error) {
-        console.log(error);
-        return [];
-    }
+    const result = await Music.findAll({
+        include: [
+            {
+                model: Album,
+                as: 'album',
+                attributes: ['name'],
+            },
+            {
+                model: Artist,
+                as: 'artist',
+                attributes: ['name'],
+            },
+        ],
+    });
+
+    return result;
+    
 }
+
+export const postMusicDB = async (data: any) => {
+    const Music = (await import('../Model/Music')).default;
+    const Album = (await import('../Model/Album')).default;
+    const Artist = (await import('../Model/Artist')).default;
+    const Genre = (await import('../Model/Genre')).default;
+
+    const { albumId, artistId, music } = data;
+
+    try {
+
+        let CheckIsMusicExist = await Music.findOne({
+            where: {
+                name: music.name
+            }
+        })
+
+        if (CheckIsMusicExist) {
+            return Promise.reject("Music already exist")
+        }
+        const result = await sequelizeDB.transaction(async (t) => {
+            const album = await Album.findByPk(albumId, { transaction: t });
+            const artist = await Artist.findByPk(artistId, { transaction: t });
+
+            if (!album || !artist) {
+                throw new Error('Album or artist not found');
+            }
+
+            const musicData = {
+                ...data.music,
+                albumId: album.id,
+                artistId: artist.id,
+            };
+
+            const music = await Music.create(musicData, { transaction: t });
+
+            return { album, artist, music };
+        });
+
+        return Promise.resolve(result);
+    } catch (error) {
+        console.log("error", error);
+        return Promise.reject(error);
+    }
+};
 
 
 export const checkConnection = async () => {

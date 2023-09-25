@@ -13,7 +13,7 @@ export default sequelizeDB.define('music', {
     },
     count: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: true
     },
     path: {
       type: DataTypes.STRING,

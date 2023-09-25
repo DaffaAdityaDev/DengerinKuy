@@ -14,7 +14,7 @@ export default async function handler(
     // console.log(params)
     try {
         const params = req.query.musicName
-        const filePath = join(process.cwd(), `src/pages/api/Resource/${params}.mp3`)
+        const filePath = join(process.cwd(), `src/pages/api/Resource/music/${params}.mp3`)
     
         const stream = createReadStream(filePath)
 
