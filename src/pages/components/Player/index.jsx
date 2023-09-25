@@ -126,7 +126,7 @@ function Player() {
             audioRef.current.play()
         }
         setIsPlaying(!isPlaying)
-    }
+    }   
 
     
 
