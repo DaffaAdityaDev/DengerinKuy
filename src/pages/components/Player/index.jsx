@@ -9,6 +9,7 @@ function Player() {
     const [duration, setDuration] = useState(0);
     const [endDuration, setEndDuration] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
+    
 
     const { song, setSong, currentSong, setCurrentSong, musicBlob, setMusicBlob } = useContext(AudioPlayerContext); 
     
