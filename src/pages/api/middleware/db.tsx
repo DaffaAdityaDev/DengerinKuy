@@ -63,7 +63,7 @@ const checkIfModelExists = async () => {
     // ];
     
     try {
-        await sequelizeDB.sync({ alter: false }).then(async () => { 
+        await sequelizeDB.sync({ alter: true }).then(async () => { 
             // if (Artist) {
             //     await Artist.bulkCreate(fakeDataArtist);
             // }

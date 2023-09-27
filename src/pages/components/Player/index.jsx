@@ -1,7 +1,8 @@
 import React, { useState, useContext, useRef, useEffect } from 'react';
 import { AudioPlayerContext } from '../../context/AudioPlayerProvider';
 import { fetchMusic } from '@/pages/utils';
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlay, faArrowRight, faArrowLeft, faPause } from "@fortawesome/free-solid-svg-icons";
 
 function Player() {
     const [volume, setVolume] = useState(0.1)
@@ -58,7 +59,7 @@ function Player() {
 
     useEffect(() => {
         audioRef.current.volume = volume
-    }, [volume])
+    }, [volume]) 
 
     
     const handleSeekerChange = (e) => {
@@ -123,38 +124,41 @@ function Player() {
     }
 
     function handlePlay() {
+
         if (isPlaying) {
             audioRef.current.pause()
         } else {
             audioRef.current.play()
         }
         setIsPlaying(!isPlaying)
-    }   
-
-    
-
+    }  
 
   return (
     <div className='flex justify-between items-center h-full'>
         {/* <button onClick={goPrev}>prev</button> */}
-        <div >
+        <div className='text-white'>
             {/* <img src={song[currentSong].cover} alt="" /> */}
             <h3>{song[currentSong]?.title}</h3>
             <p>{song[currentSong]?.artist}</p>
         </div>
        
         <div className="flex flex-col justify-center items-center h-full">
-            <div>
-                <button onClick={handlePrev} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <div> 
+                <FontAwesomeIcon onClick={handlePrev} icon={faArrowLeft} className=" text-white font-bold py-2 px-4 rounded cursor-pointer">
                 Prev
-                </button>
-                <button onClick={handlePlay} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                {isPlaying ? 'Pause' : 'Play'}
-                </button>
+                </FontAwesomeIcon>
+                {
+                    isPlaying ?
+                        (<FontAwesomeIcon onClick={handlePlay} icon={faPause} className="text-white font-bold py-2 px-4 rounded w-5 h-5 cursor-pointer">
+                            play
+                        </FontAwesomeIcon>) : (<FontAwesomeIcon onClick={handlePlay} icon={faPlay} className="text-white font-bold py-2 px-4 rounded w-5 h-5 cursor-pointer">
+                            pause
+                        </FontAwesomeIcon>)
+                }
                 
-                <button onClick={handleNext} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                <FontAwesomeIcon onClick={handleNext} icon={faArrowRight} className="text-white font-bold py-2 px-4 rounded cursor-pointer">
                     Next
-                </button>
+                </FontAwesomeIcon>
             </div>
             <div className="relative flex justify-center items-center gap-3 pt-1 w-64 mx-2 ">
                     <p className="text-xs font-semibold inline-block text-gray-600">
@@ -182,15 +186,19 @@ function Player() {
             
         </div>
 
-        <div className="flex justify-center items-center">
-            <input
-                type="range"
-                min="0"
-                max="1"
-                step="0.01"
-                value={volume}
-                onChange={e => setVolume(e.target.value)}
-            />
+        <div className="flex justify-center items-center relative">
+            <div className='overflow-hidden h-2 text-xs flex rounded bg-blue-200 w-40'>
+                <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    value={volume}
+                    onChange={e => setVolume(e.target.value)}
+                    className="absolute left-0 w-full h-2 opacity-0 cursor-pointer z-10"
+                />
+                <div style={{ width: `${volume*100}%` }} className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"></div>
+            </div>
         </div>
 
         <audio ref={audioRef}>
