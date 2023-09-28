@@ -5,12 +5,12 @@ import { createReadStream } from 'fs';
 import { join } from 'path';
 
 // deleteAllTable()
-// checkConnection()
 
 export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+    req: NextApiRequest,
+    res: NextApiResponse
+    ) {
+    // await checkConnection()
     // console.log(params)
     try {
         const params = req.query.musicName

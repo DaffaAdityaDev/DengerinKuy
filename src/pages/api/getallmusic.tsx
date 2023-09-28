@@ -3,13 +3,13 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { checkConnection, getAllDataMusic } from './Middleware/db'
 
 
-// deleteAllTable()
-checkConnection()
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+
+  await checkConnection();
+
   let data = await getAllDataMusic()
   
   res.status(200).json({
