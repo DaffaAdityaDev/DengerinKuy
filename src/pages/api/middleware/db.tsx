@@ -4,9 +4,10 @@ import { Sequelize } from 'sequelize';
 // Create Sequelize connection
 export const createSequelizeDB = () => {
     // Create and return new Sequelize instance (database connection)
-    return new Sequelize('dengerinkuy', 'root', '', {
+    return new Sequelize('sql12650051', 'sql12650051', '9eJWwGus3v', {
         // Host and dialect for the connection
-        host: 'localhost',
+        host: 'sql12.freesqldatabase.com',
+        port : 3306,
         dialect: 'mysql'
     });
 }
@@ -63,7 +64,7 @@ const checkIfModelExists = async () => {
     // ];
     
     try {
-        await sequelizeDB.sync({ force: true }).then(async () => { 
+        await sequelizeDB.sync({ alter: true }).then(async () => { 
             if (Artist) {
                 await Artist.bulkCreate(fakeDataArtist);
             }
@@ -149,12 +150,12 @@ export const postMusicDB = async (data: any) => {
             };
 
             if (!album) {
-                const newAlbum = await Album.create({ name: albumName }, { transaction: t });
+                const newAlbum : any = await Album.create({ name: albumName }, { transaction: t });
                 musicData.albumId = newAlbum.id;
             }
             
             if (!artist) {
-                const newArtist = await Artist.create({ name: artistName }, { transaction: t });
+                const newArtist : any = await Artist.create({ name: artistName }, { transaction: t });
                 musicData.artistId = newArtist.id;
             }
 

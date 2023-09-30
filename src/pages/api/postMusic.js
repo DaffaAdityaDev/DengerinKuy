@@ -12,7 +12,7 @@ export const config = {
 };
 
 
-export default async function uploadFile(req: NextApiRequest, res: NextApiResponse) {
+export default async function uploadFile(req, res) {
   // await checkConnection();
   
   const form = new IncomingForm();

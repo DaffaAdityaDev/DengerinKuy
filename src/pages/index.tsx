@@ -16,8 +16,11 @@ import MusicSelect from './components/Card/MusicSelect'
 const inter = Inter({ subsets: ['latin'] })
 
 type Music = {
+  name: any;
+  album: any;
+  length: any;
   title: string,
-  artist: string,
+  artist: any,
   blob: Blob
 }
 
@@ -45,11 +48,11 @@ export default function Home() {
     setListMusic(res.data.data)
   }
 
-  let handlePlay = (item) => () => {
+  let handlePlay = (item: { title?: string; artist: any; blob?: Blob; name?: any; album?: any; length?: any; }) => () => {
     // console.log(item)
     
     fetchMusic(item.name).then((res) => {
-      setSong(prev => {
+      setSong((prev: any) => {
         return [...prev, {
           title: item.name,
           artist: item.artist.name,
@@ -112,14 +115,13 @@ export default function Home() {
                   artist={item.artist.name}
                   album={item.album.name}
                   length={item.length}
-                  handlePlay={handlePlay(item)}
-                />
+                  handlePlay={handlePlay(item)} img={undefined} />
               )
             })
           }
         </main>
         <div className='bg-slate-900 fixed bottom-0 w-full h-[calc(5%+3em)]'>
-          <Player songProps={song} />  
+          <Player />  
         </div>
       </div>
     // </NoSsr>
