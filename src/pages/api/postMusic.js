@@ -1,6 +1,5 @@
 import { IncomingForm } from 'formidable';
 import fs from 'fs';
-import { NextApiRequest, NextApiResponse } from 'next';
 import path from 'path';
 import { postMusicDB, checkConnection } from './Middleware/db';
 import { parseFile } from 'music-metadata';

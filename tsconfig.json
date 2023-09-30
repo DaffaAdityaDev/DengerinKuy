@@ -17,6 +17,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/api/postMusic.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/api/postMusic.js", "src/pages/api/getMusic.js", "src/pages/api/getallmusic.js", "src/pages/api/testfunction.js"],
   "exclude": ["node_modules"]
 }
