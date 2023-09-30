@@ -2,7 +2,6 @@ import { IncomingForm } from 'formidable';
 import fs from 'fs';
 import path from 'path';
 import { postMusicDB, checkConnection } from './Middleware/db';
-import { parseFile } from 'music-metadata';
 
 export const config = {
   api: {
@@ -10,13 +9,14 @@ export const config = {
   },
 };
 
+checkConnection();
 
 export default async function uploadFile(req, res) {
   // await checkConnection();
   
   const form = new IncomingForm();
-  
-  form.parse(req, (err, fields, files) => {
+
+  form.parse(req, (err, fields, files) : (err: any, fields: any, files: any) => {
     if (err) {
       res.status(500).json({ message: 'Something went wrong', error: err });
       return;
@@ -27,8 +27,6 @@ export default async function uploadFile(req, res) {
         return;
     }
 
-
-
     // console.log(files['file']);
 
     const oldPath = files['file'][0].filepath;
@@ -38,29 +36,20 @@ export default async function uploadFile(req, res) {
     const musicName = fileName.split('.mp3')[0];
     const length = files['file'][0].size;
 
-    let result = parseFile(oldPath)
-    .then(async metadata => {
-      const data = {
-        albumId: fields?.albumId ? fields.albumId[0] : undefined,
-        artistId: fields?.artistId ? fields.artistId[0] : undefined,
-        albumName: fields?.albumName ? fields.albumName[0] : undefined,
-        artistName: fields?.artistName ? fields.artistName[0] : undefined,
+    const data = {
+        albumId: fields.albumId[0],
+        artistId: fields.artistId[0],
         music: {
             name : musicName,
             path: newPath,
-            length: metadata.format.duration
+            length: length,
             // image: fields.image,
         },
-      }
+    };
 
-      let postMusic = await postMusicDB(data);
+    let result = postMusicDB(data);
+    
 
-      return Promise.resolve(postMusic);
-    }).catch(err => {
-      console.error(err.message);
-      return Promise.reject(err);
-    });
-  
     const putDataToFile = () => fs.copyFile(oldPath, newPath, function (err) {
       if (err) {
         res.status(500).json({ message: 'File upload failed', error: err });
@@ -78,13 +67,12 @@ export default async function uploadFile(req, res) {
     });
 
     result.then((result) => {
-      console.log("result", result);
+      console.log(result);
       putDataToFile();
 
     }).catch((err) => {
-        console.log("error", err);
-        res.status(500).json({ message: 'Something went wrong', error: err });
-
+        console.log(err);
+        res.status(500).json({ message: 'Failed to create music', error: err });
     })
   });
 }

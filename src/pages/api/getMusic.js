@@ -4,6 +4,7 @@ import { createReadStream } from 'fs';
 import { join } from 'path';
 
 // deleteAllTable()
+// checkConnection()
 
 export default async function handler(
     req,

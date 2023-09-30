@@ -10,7 +10,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import RadioMain from './components/Radio/Main'
 import Player from './components/Player'
-import MusicSelect from './components/Card/MusicSelect'
+import { AudioPlayerContext } from './context/AudioPlayerProvider';
+import { fetchMusic } from './utils';
+import axios from 'axios';
+
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -43,8 +46,6 @@ export default function Home() {
 
   let getMusicFromApi = async () => {
     const res = await axios.get('/api/getallmusic')
-
-    console.log(res.data.data)
     setListMusic(res.data.data)
   }
 
@@ -56,8 +57,6 @@ export default function Home() {
         return [...prev, {
           title: item.name,
           artist: item.artist.name,
-          album: item.album.name,
-          length: item.length,
         }]
       })
       setCurrentSong(song.length)
@@ -102,15 +101,15 @@ export default function Home() {
             <p>Home</p>
           </div>
         </aside>
-        <main className='bg-slate-700 text-white flex flex-col items-start justify-start flex-1 p-4 ml-[calc(10%+3em)] pb-[calc(5%+3em)]'>
+        <main className='bg-slate-700 flex flex-col items-start justify-start flex-1 p-4 ml-[calc(10%+3em)] pb-[calc(5%+3em)]'>
           <p className='text-2xl'>Main</p>
           <div className='grid lg:grid-cols-3 lg:grid-rows-2 gap-4 w-full sm:grid-cols-2 sm:grid-rows-2 md:grid-cols-2 md:grid-rows-3'>
-            <RadioMain title='Radio' img='/cool.jpg' />
-            <RadioMain title='Radio' img='/cool.jpg' />
-            <RadioMain title='Radio' img='/cool.jpg' />
-            <RadioMain title='Radio' img='/cool.jpg' />
-            <RadioMain title='Radio' img='/cool.jpg' />
-            <RadioMain title='Radio' img='/cool.jpg' />
+            <RadioMain title='Radio' img='/col.jpg' />
+            <RadioMain title='Radio' img='/col.jpg' />
+            <RadioMain title='Radio' img='/ool.jpg' />
+            <RadioMain title='Radio' img='/ool.jpg' />
+            <RadioMain title='Radio' img='/ool.jpg' />
+            <RadioMain title='Radio' img='/ool.jpg' />
           </div>
           <div>
             <p className='text-2xl'>uploadmusic</p>
@@ -125,7 +124,7 @@ export default function Home() {
             </form>
           </div>
           <h1>main</h1>
-          {/* <button onClick={() => setSong([{
+          <button onClick={() => setSong([{
             title: "SPECIALZ",
             artist: "JACKBOYS",
             
@@ -133,7 +132,7 @@ export default function Home() {
             title: "I REALLY WANT TO STAY AT YOUR HOUSE",
             artist: "JACKBOYS",
             
-          }])}>set</button> */}
+          }])}>set</button>
 
           {
             listMusic.map((item, index) => {
@@ -144,7 +143,8 @@ export default function Home() {
                   artist={item.artist.name}
                   album={item.album.name}
                   length={item.length}
-                  handlePlay={handlePlay(item)} img={undefined} />
+                  handlePlay={handlePlay(item)}
+                />
               )
             })
           }

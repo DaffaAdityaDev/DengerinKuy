@@ -66,13 +66,13 @@ const checkIfModelExists = async () => {
     // ];
     
     try {
-        await sequelizeDB.sync({ force: true }).then(async () => { 
-            if (Artist) {
-                await Artist.bulkCreate(fakeDataArtist);
-            }
-            if (Album) {
-                await Album.bulkCreate(fakeDataAlbum);
-            }
+        await sequelizeDB.sync({ alter: true }).then(async () => { 
+            // if (Artist) {
+            //     await Artist.bulkCreate(fakeDataArtist);
+            // }
+            // if (Album) {
+            //     await Album.bulkCreate(fakeDataAlbum);
+            // }
             // if (Music) {
             //     await Music.bulkCreate(fakeDataMusic);
             // }
@@ -97,15 +97,12 @@ export const getAllDataMusic = async () => {
     const Artist = (await import('../Model/Artist')).default;
     const Genre = (await import('../Model/Genre')).default;
 
-    
-
     const result = await Music.findAll({
         include: [
             {
                 model: Album,
                 as: 'album',
                 attributes: ['name'],
-                required: true,
             },
             {
                 model: Artist,
@@ -125,9 +122,7 @@ export const postMusicDB = async (data) => {
     const Artist = (await import('../Model/Artist')).default;
     const Genre = (await import('../Model/Genre')).default;
 
-    let { albumId, albumName, artistId, artistName, music } = data;
-
-    // console.log("data", data);
+    const { albumId, artistId, music } = data;
 
     try {
 
@@ -140,36 +135,29 @@ export const postMusicDB = async (data) => {
         if (CheckIsMusicExist) {
             return Promise.reject("Music already exist")
         }
-
         const result = await sequelizeDB.transaction(async (t) => {
             const album = await Album.findByPk(albumId, { transaction: t });
             const artist = await Artist.findByPk(artistId, { transaction: t });
 
+            if (!album || !artist) {
+                throw new Error('Album or artist not found');
+            }
+
             const musicData = {
                 ...data.music,
-                albumId: albumId,
-                artistId: artistId,
+                albumId: album.id,
+                artistId: artist.id,
             };
-
-            if (!album) {
-                const newAlbum = await Album.create({ name: albumName }, { transaction: t });
-                musicData.albumId = newAlbum.id;
-            }
-            
-            if (!artist) {
-                const newArtist = await Artist.create({ name: artistName }, { transaction: t });
-                musicData.artistId = newArtist.id;
-            }
 
             const music = await Music.create(musicData, { transaction: t });
 
             return { album, artist, music };
         });
 
-        return result;
+        return Promise.resolve(result);
     } catch (error) {
         console.log("error", error);
-        return error;
+        return Promise.reject(error);
     }
 };
 

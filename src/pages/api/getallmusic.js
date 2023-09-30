@@ -5,9 +5,6 @@ export default async function handler(
   req,
   res
 ) {
-
-  await checkConnection();
-
   let data = await getAllDataMusic()
   
   res.status(200).json({
