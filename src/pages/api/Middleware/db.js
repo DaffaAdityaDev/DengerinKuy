@@ -117,7 +117,7 @@ export const getAllDataMusic = async () => {
     
 }
 
-export const postMusicDB = async (data: any) => {
+export const postMusicDB = async (data) => {
     const Music = (await import('../Model/Music')).default;
     const Album = (await import('../Model/Album')).default;
     const Artist = (await import('../Model/Artist')).default;
@@ -150,12 +150,12 @@ export const postMusicDB = async (data: any) => {
             };
 
             if (!album) {
-                const newAlbum : any = await Album.create({ name: albumName }, { transaction: t });
+                const newAlbum = await Album.create({ name: albumName }, { transaction: t });
                 musicData.albumId = newAlbum.id;
             }
             
             if (!artist) {
-                const newArtist : any = await Artist.create({ name: artistName }, { transaction: t });
+                const newArtist = await Artist.create({ name: artistName }, { transaction: t });
                 musicData.artistId = newArtist.id;
             }
 
