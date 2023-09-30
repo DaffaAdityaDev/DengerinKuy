@@ -8,6 +8,7 @@ export const createSequelizeDB = () => {
         // Host and dialect for the connection
         host: 'sql12.freesqldatabase.com',
         port : 3306,
+        dialectModule: require('mysql2'),
         dialect: 'mysql'
     });
 }
