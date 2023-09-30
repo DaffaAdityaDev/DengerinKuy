@@ -4,9 +4,9 @@ import { Sequelize } from 'sequelize';
 // Create Sequelize connection
 export const createSequelizeDB = () => {
     // Create and return new Sequelize instance (database connection)
-    return new Sequelize('sql12650051', 'sql12650051', '9eJWwGus3v', {
+    return new Sequelize('dengerinkuy', 'root', '', {
         // Host and dialect for the connection
-        host: 'sql12.freesqldatabase.com',
+        host: 'localhost',
         port : 3306,
         dialectModule: require('mysql2'),
         dialect: 'mysql'
@@ -22,14 +22,15 @@ const checkIfModelExists = async () => {
     const Artist = (await import('../Model/Artist')).default;
     const Album = (await import('../Model/Album')).default;
 
-    Album.hasMany(Music, { foreignKey: 'albumId', as: 'musics' });
+    Album.hasMany(Music, { foreignKey: 'albumId', as: 'albumMusics' });
     Music.belongsTo(Album, { foreignKey: 'albumId', as: 'album' });
 
-    Artist.hasMany(Music, { foreignKey: 'artistId', as: 'musics' });
+    Artist.hasMany(Music, { foreignKey: 'artistId', as: 'artistMusics' });
     Music.belongsTo(Artist, { foreignKey: 'artistId', as: 'artist' });
 
-    Artist.hasMany(Genre, { foreignKey: 'artistId', as: 'albums' });
+    Artist.hasMany(Genre, { foreignKey: 'artistId', as: 'genres' });
     Genre.belongsTo(Artist, { foreignKey: 'artistId', as: 'artist' });
+
 
     // const fakeDataMusic = [
     //     {
@@ -65,7 +66,7 @@ const checkIfModelExists = async () => {
     // ];
     
     try {
-        await sequelizeDB.sync({ alter: true }).then(async () => { 
+        await sequelizeDB.sync({ force: true }).then(async () => { 
             if (Artist) {
                 await Artist.bulkCreate(fakeDataArtist);
             }

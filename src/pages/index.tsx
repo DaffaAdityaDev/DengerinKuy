@@ -65,6 +65,23 @@ export default function Home() {
     })
   }
 
+  let handleUploadMusic = async (file: any, albumId: any, artistId: any, albumName: any, artistName: any) => {
+    let formData = new FormData()
+    formData.append('music', file)
+    formData.append('albumId', albumId)
+    formData.append('artistId', artistId)
+    formData.append('albumName', albumName)
+    formData.append('artistName', artistName)
+
+    const res = await axios.post('/api/uploadmusic', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+
+    console.log(res)
+  }
+
   console.log(song, currentSong, musicBlob)
 
   // console.log(song)
@@ -94,6 +111,18 @@ export default function Home() {
             <RadioMain title='Radio' img='/cool.jpg' />
             <RadioMain title='Radio' img='/cool.jpg' />
             <RadioMain title='Radio' img='/cool.jpg' />
+          </div>
+          <div>
+            <p className='text-2xl'>uploadmusic</p>
+            <form onSubmit={(e) => {handleUploadMusic(e.target.music.files[0], e.target.albumId.value, e.target.artistId.value, e.target.albumName.value, e.target.artistName.value)}} className='text-black'>
+              <input type="file" name="music" />
+              <input type="text" name="albumId" placeholder='albumId' />
+              <input type="text" name="artistId" placeholder='artistId' />
+              <input type="text" name="albumName" placeholder='albumName' />
+              <input type="text" name="artistName" placeholder='artistName' />
+              <button type="submit">Upload</button>
+
+            </form>
           </div>
           <h1>main</h1>
           {/* <button onClick={() => setSong([{
