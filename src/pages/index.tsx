@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from 'react';
 import { Inter } from 'next/font/google'
 import NoSsr from './components/NoSsr'
 import axios from 'axios';
-import { fetchMusic } from './utils';
+import fetchMusic from './utils';
 import { AudioPlayerContext } from './context/AudioPlayerProvider';
 
 import { faCoffee } from "@fortawesome/free-solid-svg-icons";
@@ -51,7 +51,7 @@ export default function Home() {
   let handlePlay = (item: { title?: string; artist: any; blob?: Blob; name?: any; album?: any; length?: any; }) => () => {
     // console.log(item)
     
-    fetchMusic(item.name).then((res) => {
+    fetchMusic(item.name).then((res: any) => {
       setSong((prev: any) => {
         return [...prev, {
           title: item.name,

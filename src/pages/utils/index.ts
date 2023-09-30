@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const fetchMusic = async ( music : String ) => {
+const fetchMusic = async ( music : String ) => {
     let url = "http://localhost:3000/api/getMusic";
 
     // console.log('fetchMusic', url, music);
@@ -25,4 +25,6 @@ export const fetchMusic = async ( music : String ) => {
     console.error(error);
   }
 };
+
+export default fetchMusic;
   
