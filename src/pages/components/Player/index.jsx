@@ -1,6 +1,6 @@
 import React, { useState, useContext, useRef, useEffect } from 'react';
 import { AudioPlayerContext } from '../../context/AudioPlayerProvider';
-import { fetchMusic } from '@/pages/utils';
+import { fetchMusic } from '../../../../utils';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faArrowRight, faArrowLeft, faPause } from "@fortawesome/free-solid-svg-icons";
 

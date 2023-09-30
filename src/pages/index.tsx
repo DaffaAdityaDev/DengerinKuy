@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from 'react';
 import { Inter } from 'next/font/google'
 import NoSsr from './components/NoSsr'
 import axios from 'axios';
-import fetchMusic from './utils';
+import fetchMusic from '../../utils';
 import { AudioPlayerContext } from './context/AudioPlayerProvider';
 
 import { faCoffee } from "@fortawesome/free-solid-svg-icons";
