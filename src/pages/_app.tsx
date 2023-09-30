@@ -4,7 +4,7 @@ import "@fortawesome/fontawesome-svg-core/styles.css"; // import Font Awesome CS
 import { config } from "@fortawesome/fontawesome-svg-core";
 config.autoAddCss = false; // Tell Font Awesome to skip adding the CSS automatically since it's being imported above
 
-import { AudioPlayerProvider } from './context/AudioPlayerProvider'
+import AudioPlayerProvider from './context/AudioPlayerProvider'
 export default function App({ Component, pageProps }: AppProps) {
   return  (
     <AudioPlayerProvider>
