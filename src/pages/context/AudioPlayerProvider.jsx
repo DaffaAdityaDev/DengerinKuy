@@ -3,8 +3,7 @@
 import React, { createContext, useEffect, useState } from 'react';
 
 export const AudioPlayerContext = createContext();
-
-export const AudioPlayerProvider = ({ children }) => {
+const AudioPlayerProvider = ({ children }) => {
   // let storedState;
   // if (typeof window !== "undefined") {
   //   storedState = localStorage.getItem('audioPlayerState');
@@ -39,3 +38,5 @@ export const AudioPlayerProvider = ({ children }) => {
     </AudioPlayerContext.Provider>
   );
 };
+
+export default AudioPlayerProvider;
